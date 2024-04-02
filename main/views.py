@@ -3,13 +3,17 @@ from django.shortcuts import render
 
 def index(request): #controller 
     context = {
-        'title': 'Home',
-        'content': 'Main page of Pharmacy - PharmaPlus',
-        'list': ['first', 'second'],
-        'dict': {'first': 1},
-        'is_authenticated': False,
+        'title': 'PharmPlus - Main',
+        'content': " Pharmacy store PharmPlus",
+
     }
     return render(request,'main/index.html', context)
 
 def about(request): #controller 
-    return HttpResponse('About Page')
+    context = {
+        'title': 'PharmPlus - About Us',
+        'content': " we are ",
+        'text_on_page': 'Lorrwm lorwjfhduivd',
+
+    }
+    return render(request,'main/about.html', context)
