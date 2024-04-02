@@ -1,0 +1,12 @@
+#pyrhon stuff
+venv/
+.pylinktrc
+__pycache__/
+
+#ide stuff
+.vscode
+.idea
+
+#django stuf
+db.sqlite3
+media/
