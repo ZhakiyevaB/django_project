@@ -19,10 +19,9 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls), #domen name admin
     path('', include('main.urls', namespace='main')),
-    path('catalog/', include('goods.urls', namespace='catalog')),
-
-
+    path('catalog/', include('goods.urls', namespace='catalog'))
 ]
+
 """
 www.site.com.admin
 www.site.com
