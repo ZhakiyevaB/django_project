@@ -1,11 +1,14 @@
-
+from email import message
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from django.contrib import auth
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import ProfileForm, UserLoginForm, UserRegistrationForm
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
+
+from django.contrib import messages
 
 
 def login(request): #controller 
@@ -17,6 +20,7 @@ def login(request): #controller
             user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(request, user)
+                messages.success(request, f"{user.username}, You are welcome")
                 return HttpResponseRedirect(reverse('main:index'))
         else:
             form = UserLoginForm()
@@ -34,6 +38,7 @@ def registration(request): #controller
             form.save()
             user = form.instanse
             auth.login(request, user)
+            messages.success(request, f"{user.username}, You are succesfuly registratd in account")
             return HttpResponseRedirect(reverse('main:index'))
     else:
         form = UserRegistrationForm()
@@ -44,15 +49,24 @@ def registration(request): #controller
     }
     return render(request,'users/registration.html', context)
 
+@login_required
 def profile(request): #controller 
+    if request.method == 'POST':
+        form = ProfileForm(data=request.POST, instanse=request.user, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{user.username}, Profile succesfuly uploaded")
+            return HttpResponseRedirect(reverse('user:profile'))
+    else:
+        form = ProfileForm(instanse=request.user)
 
     context = {
         'title': 'Home - profile',
-        
-
+        'form': form
     }
     return render(request,'users/profile.html', context)
 
 def logout(request): #controller 
+    messages.success(request, f"{request.user.username}, You logout of account")
     auth.logout(request)
     return redirect(reverse('main:index'))
