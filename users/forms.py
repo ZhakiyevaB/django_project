@@ -51,8 +51,8 @@ class UserRegistrationForm(UserCreationForm):
 #   last_name = forms.CharField(
 #       widget=forms.PasswordInput(
 #            attrs={
-                  'class': 'form-control',
-                  'placeholder': 'text your lastname'}))
+#                  'class': 'form-control',
+#                  'placeholder': 'text your lastname'}))
 #    username = forms.CharField(
 #        widget=forms.TextInput(
 #            attrs={
@@ -74,10 +74,10 @@ class ProfileForm(UserChangeForm):
             "username",
             "email",
         )
-        first_name = forms.forms.CharField()
-        last_name = forms.forms.CharField()
-        username = forms.forms.CharField()
-        email = forms.forms.CharField()
+        first_name = forms.CharField()
+        last_name = forms.CharField()
+        username = forms.CharField()
+        email = forms.CharField()
 
 
 #    image = forms.ImageField(

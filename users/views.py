@@ -70,6 +70,8 @@ def profile(request): #controller
     }
     return render(request,'users/profile.html', context)
 
+def users_cart(request):
+    return render(request, 'users/users_cart.html')
 @login_required
 def logout(request): #controller 
     messages.success(request, f"{request.user.username}, You logout of account")
