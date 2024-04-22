@@ -21,7 +21,7 @@
     <title>{{ title }}</title>
 </head>
 
-<body>
+<body id='bg' src={% static "deps/image/wallpaper9.jpg" %}>
     <header>
         <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container">
@@ -177,11 +177,13 @@
                 </div>
                 <div class="col-lg-10">
                     <!-- Контент на странице -->
+                    {% include "includes/notifications.html" %}
                    {% block content %}{% endblock content %}
                 </div>
             </div>
         </div>
     </section>
+
 {% block footer %}{% endblock footer %}
     <script src="{% static "deps/js/jquery/jquery-3.7.0.min.js"%}"></script>
     <script src="{% static "deps/js/jquery-events.js"%}"></script>

@@ -1,10 +1,11 @@
 from django.core.paginator import Paginator
 from unicodedata import category
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 from django.template import context
 
 from goods.models import Products
 from goods.utils import q_search
+#from django.forms import ProductForm  # Assuming you have a form defined for Product model
 
 
 def catalog(request, category_slug=None):
@@ -47,3 +48,5 @@ def product(request, product_slug ):
         'product': product
     }
     return render(request, 'goods/product.html', context)
+
+

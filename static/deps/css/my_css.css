@@ -1,11 +1,16 @@
-body {
-  background-image: url("../images/bg-image.jpg");
+.bg{
   background-repeat: no-repeat;
+  background-size:1920px 1200px;
+  background-position: top;
+  background-attachment: fixed;
+  height: 100%;
+}
+/* body {
   background-attachment: fixed;
   background-position: center center;
   background-size: cover;
   height: 100%;
-}
+ */}
 
 .dropdown-toggle::after {
   content: none;
