@@ -21,7 +21,8 @@ def login(request): #controller
                 auth.login(request, user)
                 messages.success(request, f"{username}, You are in account")
 
-                if request.POST.get('next', None):
+                redirect_page = request.POST.get('next', None)
+                if redirect_page and redirect_page != reverse('user:logout'):
                     return HttpResponseRedirect(request.POST.get('next'))
                 
                 return HttpResponseRedirect(reverse('main:index'))
@@ -40,10 +41,10 @@ def registration(request): #controller
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
- #           user = form.instanse
-#            auth.login(request, user)
-#            messages.success(request, f"{user.username}, You are succesfuly registratd in account")
-            return HttpResponseRedirect(reverse('user:login'))
+            user = form.instanse
+            auth.login(request, user)
+            messages.success(request, f"{user.username}, You are succesfuly registratd in account")
+            return HttpResponseRedirect(reverse('main:index'))
         else:
             form = UserRegistrationForm()
 
