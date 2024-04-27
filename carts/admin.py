@@ -1,3 +1,9 @@
+#from django.apps import AppConfig
 from django.contrib import admin
+#from traitlets import default
 
-# Register your models here.
+from carts.models import Cart
+
+admin.site.register(Cart) 
+
+

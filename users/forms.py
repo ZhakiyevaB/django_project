@@ -5,6 +5,7 @@ from users.models import User
 
 class UserLoginForm(AuthenticationForm):
     
+    
     class Meta:
         model = User
         fields = ['username', 'password']
@@ -12,16 +13,16 @@ class UserLoginForm(AuthenticationForm):
     username = forms.CharField()
     password = forms.CharField()
     
-  #  username = forms.CharField(
-  #      label = 'Name',
-  #      widget=forms.TextInput(attrs={"autofocus": True,
-  #                             'class': 'form-control',
-  #                             'placeholder': 'Text username'}))
-  #  password = forms.CharField(
-  #     label = 'password',
-  #      widget=forms.PasswordInput(attrs={"autocomplete": "current-possword",
-  #                                  'class': 'form-control',
-  #                                  'placeholder': 'Text username'}))
+#    username = forms.CharField(
+#        label = 'Name',
+#       widget=forms.TextInput(attrs={"autofocus": True,
+#                                     'class': 'form-control',
+#                                     'placeholder': 'Text username'}))
+#    password = forms.CharField(
+#        label = 'password',
+#        widget=forms.PasswordInput(attrs={"autocomplete": "current-possword",
+#                                          'class': 'form-control',
+#                                          'placeholder': 'Text username'}))
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -35,12 +36,12 @@ class UserRegistrationForm(UserCreationForm):
             "password1",
             "password2",
         )
-        first_name = forms.CharField(required=False)
-        last_name = forms.CharField()
-        username = forms.CharField()
-        email = forms.CharField()
-        password1 = forms.CharField()
-        password2 = forms.CharField()
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField()
+    username = forms.CharField()
+    email = forms.CharField()
+    password1 = forms.CharField()
+    password2 = forms.CharField()
 
 
 #    first_name = forms.CharField(
@@ -48,21 +49,24 @@ class UserRegistrationForm(UserCreationForm):
 #            attrs={
 #                  'class': 'form-control',
 #                  'placeholder': 'text your firstname'}))
-#   last_name = forms.CharField(
+
+#    last_name = forms.CharField(
 #       widget=forms.PasswordInput(
-#            attrs={
+#           attrs={
 #                  'class': 'form-control',
 #                  'placeholder': 'text your lastname'}))
+
 #    username = forms.CharField(
 #        widget=forms.TextInput(
 #            attrs={
 #                  'class': 'form-control',
 #                  'placeholder': 'Text username'}))
+
 #    email = forms.CharField(
 #        widget=forms.TextInput(
 #            attrs={
 #                  'class': 'form-control',
-#                  'placeholder': 'Text email'})) 
+#                 'placeholder': 'Text email'})) 
 
 class ProfileForm(UserChangeForm):
     class Meta:
@@ -74,10 +78,11 @@ class ProfileForm(UserChangeForm):
             "username",
             "email",
         )
-        first_name = forms.CharField()
-        last_name = forms.CharField()
-        username = forms.CharField()
-        email = forms.CharField()
+    image = forms.ImageField(required=False)
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    username = forms.CharField()
+    email = forms.CharField()
 
 
 #    image = forms.ImageField(

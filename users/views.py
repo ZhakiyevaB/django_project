@@ -3,24 +3,23 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from django.contrib import auth
+from django.contrib import auth, messages
 from .forms import ProfileForm, UserLoginForm, UserRegistrationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-
-from django.contrib import messages
-
+from django.views.decorators.csrf import csrf_exempt
 
 def login(request): #controller 
+    form = UserLoginForm()
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
-            username = request.POST['userame']
+            username = request.POST['username']
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(request, user)
-                messages.success(request, f"{user.username}, You are welcome")
+                messages.success(request, f"{username}, You are in account")
 
                 if request.POST.get('next', None):
                     return HttpResponseRedirect(request.POST.get('next'))
@@ -30,22 +29,23 @@ def login(request): #controller
             form = UserLoginForm()
 
     context = {
-        'title': 'Home - Login',
-        'form': form,
+        'title': 'Home - login',
+        'form': form
     }
     return render(request,'users/login.html', context)
 
 def registration(request): #controller 
+    form = UserLoginForm()
     if request.method == 'POST':
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            user = form.instanse
-            auth.login(request, user)
-            messages.success(request, f"{user.username}, You are succesfuly registratd in account")
-            return HttpResponseRedirect(reverse('main:index'))
-    else:
-        form = UserRegistrationForm()
+ #           user = form.instanse
+#            auth.login(request, user)
+#            messages.success(request, f"{user.username}, You are succesfuly registratd in account")
+            return HttpResponseRedirect(reverse('user:login'))
+        else:
+            form = UserRegistrationForm()
 
     context = {
         'title': 'Home - registration',
@@ -55,14 +55,16 @@ def registration(request): #controller
 
 @login_required
 def profile(request): #controller 
+    form = UserLoginForm()
     if request.method == 'POST':
-        form = ProfileForm(data=request.POST, instanse=request.user, files=request.FILES)
+        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f"{user.username}, Profile succesfuly uploaded")
+            messages.success(request, "Profile succesfuly uploaded")
             return HttpResponseRedirect(reverse('user:profile'))
     else:
-        form = ProfileForm(instanse=request.user)
+        form = ProfileForm(instance=request.user)
+
 
     context = {
         'title': 'Home - profile',
@@ -70,8 +72,9 @@ def profile(request): #controller
     }
     return render(request,'users/profile.html', context)
 
-def users_cart(request):
-    return render(request, 'users/users_cart.html')
+#def users_cart(request):
+    #return render(request, 'users/users_cart.html')
+
 @login_required
 def logout(request): #controller 
     messages.success(request, f"{request.user.username}, You logout of account")

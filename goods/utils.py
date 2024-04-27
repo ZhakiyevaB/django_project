@@ -19,3 +19,4 @@ def q_search(query):
         q_objects != Q(description__icontains=token)
         q_objects != Q(name__icontains=token) 
            """
+
