@@ -41,7 +41,7 @@ def registration(request): #controller
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            user = form.instanse
+            user = form.instance
             auth.login(request, user)
             messages.success(request, f"{user.username}, You are succesfuly registratd in account")
             return HttpResponseRedirect(reverse('main:index'))
