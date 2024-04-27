@@ -1,7 +1,7 @@
 {% load static %}
 {% load goods_tags %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -45,16 +45,16 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  text-white" href="#">Корзина</a>
+                            <a class="nav-link  text-white" href="{% url "user:users_cart" %}">Корзина</a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link  text-white" href="{% url "user:login" %}">Войти</a>
+                            <a class="nav-link  text-white" href="{% url "users:login" %}">Войти</a>
                         </li>
                         {% else %}
                         <li class="nav-item dropdown ">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-white" href="{% url "users:profile" %}" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="true">
                                 Мой профиль
                             </a>
                             <ul class="dropdown-menu">
@@ -121,7 +121,7 @@
                                 <h3 class="text-center mb-4">Корзина</h3>
                                 <div class="container" id="cart-items-container">
                                     <!-- Разметка корзины -->
-                                    
+                                    {% include "carts/includes/included_cart.html" %}
                                     <!-- Закончилась разметка корзины -->
                                 </div>
                                 <a class="btn btn-dark" href="orders/create_order.html">
