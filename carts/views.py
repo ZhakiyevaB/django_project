@@ -1,6 +1,5 @@
 from urllib import response
 from django.shortcuts import redirect, render
-from carts.templatetags.carts_tags import user_carts
 from carts.utils import get_user_carts
 from goods.models import Products
 from unicodedata import category
@@ -22,6 +21,7 @@ def cart_add(request, product_slug ):
                 cart.save()
         else:
             Cart.objects.create(user=request.user, product=product, quantity=1)
+    user_cart = get_user_carts(request)
 
     return redirect(request.META['HTTP_REFERER'])
         
@@ -33,7 +33,8 @@ def cart_change(request, cart_id):
     if quantity is not None:
         cart.quantity = quantity
         cart.save()
-
+    
+    cart = get_user_carts(request)
 
     return redirect(request.META['HTTP_REFERER'])
 
@@ -41,7 +42,6 @@ def cart_remove(request, cart_id):
     cart = Cart.objects.get(id=cart_id)
 
     cart.delete()
-
-
+    user_cart = get_user_carts(request)
 
     return redirect(request.META['HTTP_REFERER'])

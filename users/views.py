@@ -9,6 +9,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.views import APIView
+from users.models import User
+from rest_framework.response import Response
+
+from django.urls import reverse
+
 def login(request): #controller 
     form = UserLoginForm()
     if request.method == 'POST':
@@ -81,3 +87,85 @@ def logout(request): #controller
     messages.success(request, f"{request.user.username}, You logout of account")
     auth.logout(request)
     return redirect(reverse('main:index'))
+from django.forms import model_to_dict
+from rest_framework import generics
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Userz
+from .serializers import UserzSerializer
+
+
+class UserzAPIView(APIView):
+    def get(self, request):
+        w = Userz.objects.all()
+        return Response({'posts': UserzSerializer(w, many=True).data})
+
+    def post(self, request):
+        serializer = UserzSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'post': serializer.data})
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT not allowed"})
+
+        try:
+            instance = Userz.objects.get(pk=pk)
+        except:
+            return Response({"error": "Object does not exists"})
+
+        serializer = UserzSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"post": serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method DELETE not allowed"})
+
+        # здесь код для удаления записи с переданным pk
+
+        return Response({"post": "delete post " + str(pk)})
+
+# class WomenAPIView(generics.ListAPIView):
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
+
+from django.forms import model_to_dict
+from rest_framework import generics, viewsets, mixins
+from django.shortcuts import render
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
+
+from .models import Userz
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
+from .serializers import UserzSerializer
+
+
+class UserzAPIList(generics.ListCreateAPIView):
+    queryset = Userz.objects.all()
+    serializer_class = UserzSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
+
+class UserzAPIUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Userz.objects.all()
+    serializer_class = UserzSerializer
+    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (TokenAuthentication, )
+
+
+class UserzAPIDestroy(generics.RetrieveDestroyAPIView):
+    queryset = Userz.objects.all()
+    serializer_class = UserzSerializer
+    permission_classes = (IsAdminOrReadOnly, )
